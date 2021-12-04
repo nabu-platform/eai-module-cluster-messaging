@@ -4,7 +4,7 @@
 	<groupId>nabu</groupId>
 	<artifactId>eai-module-cluster-messaging</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOTW</version>
+	<version>${nabu-eai-module-cluster-messaging-version}</version>
 	<name>eai-module-cluster-messaging</name>
 	<url>http://nabu.be</url>
 

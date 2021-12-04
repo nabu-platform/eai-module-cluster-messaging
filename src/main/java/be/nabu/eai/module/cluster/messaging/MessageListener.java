@@ -219,6 +219,8 @@ public class MessageListener implements ServerListener {
 				logger.error("Could not process incoming messaging data", e);
 			}
 		}, false);
+		
+		logger.info("Started listening to cluster messages with " + poolSize + " threads");
 	}
 	
 	private void processClusterMessage(final BroadcastMessage message) {
