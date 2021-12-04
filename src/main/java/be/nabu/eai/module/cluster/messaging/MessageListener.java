@@ -32,6 +32,8 @@ import be.nabu.libs.types.api.DefinedType;
 import be.nabu.libs.types.binding.json.JSONBinding;
 
 // startup service that makes sure everything is running
+
+// TODO: periodic synchronization of subscriptions + direct synchronization if new subscription is added (not new input on a service! but really new subscription)
 /**
  * Currently there is only one topic ($default)
  * In the future, new topics will be allowed, but this will likely be with a dedicated artifact
@@ -187,7 +189,11 @@ public class MessageListener implements ServerListener {
 	// unless it explicitly states that it is still active, its subscription will be terminated
 	// spec: nabu.misc.broadcast.specs.subscriber
 	public void subscribe(String typeId, String query, String topicId, String serviceId, Object serviceInput) {
+		// TODO
+		// important: must make a new instance of the input and map by key
+		// we don't want to be manipulating the same object over and over again (with the data etc)
 		
+		// TODO: unsubscribe if active != true _or_ an exception occurred
 	}
 	
 	// publish an object
