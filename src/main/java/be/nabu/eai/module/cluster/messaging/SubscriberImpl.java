@@ -6,6 +6,7 @@ import java.nio.charset.Charset;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import be.nabu.eai.module.cluster.messaging.api.Subscriber;
 import be.nabu.eai.repository.api.Repository;
 import be.nabu.eai.repository.util.SystemPrincipal;
 import be.nabu.libs.artifacts.api.Artifact;
@@ -16,7 +17,7 @@ import be.nabu.libs.types.api.ComplexContent;
 import be.nabu.libs.types.api.Element;
 import be.nabu.libs.types.binding.json.JSONBinding;
 
-public class SubscriberImpl {
+public class SubscriberImpl implements Subscriber {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 	
@@ -24,18 +25,23 @@ public class SubscriberImpl {
 	private String serviceId;
 	private ComplexContent input;
 	
+	@Override
 	public String getServiceId() {
 		return serviceId;
 	}
 	public void setServiceId(String serviceId) {
 		this.serviceId = serviceId;
 	}
+	
+	@Override
 	public ComplexContent getInput() {
 		return input;
 	}
 	public void setInput(ComplexContent input) {
 		this.input = input;
 	}
+	
+	@Override
 	public String getId() {
 		if (id == null) {
 			try {

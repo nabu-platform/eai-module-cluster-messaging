@@ -16,6 +16,7 @@ import java.util.concurrent.ForkJoinPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import be.nabu.eai.module.cluster.messaging.api.SubscriptionSubscriber;
 import be.nabu.eai.repository.RepositoryThreadFactory;
 import be.nabu.eai.server.Server;
 import be.nabu.eai.server.api.ServerListener;
@@ -604,5 +605,45 @@ public class MessageListener implements ServerListener {
 			}
 		}
 		return analyzedOperations.get(query);
+	}
+	
+	public SubscriptionSubscriber resolve(String subscriptionId) {
+		SubscriptionSubscriberImpl result = new SubscriptionSubscriberImpl();
+		String[] split = subscriptionId.split("::");
+		if (split.length != 2) {
+			throw new IllegalArgumentException("Invalid subscription id");
+		}
+		for (SubscriptionImpl subscription : new ArrayList<SubscriptionImpl>(subscribers.keySet())) {
+			if (subscription.getId().equals(split[0])) {
+				result.setSubscription(subscription);
+				List<SubscriberImpl> list = subscribers.get(subscription);
+				if (list != null) {
+					for (SubscriberImpl subscriber : new ArrayList<SubscriberImpl>(list)) {
+						if (subscriber.getId().equals(split[1])) {
+							result.setSubscriber(subscriber);
+							break;
+						}
+					}
+				}
+				break;
+			}
+		}
+		return result;
+	}
+
+	public List<SubscriptionSubscriber> listAll() {
+		List<SubscriptionSubscriber> list = new ArrayList<SubscriptionSubscriber>();
+		for (SubscriptionImpl subscription : new ArrayList<SubscriptionImpl>(subscribers.keySet())) {
+			List<SubscriberImpl> subscriptionSubscribers = subscribers.get(subscription);
+			if (subscriptionSubscribers != null) {
+				for (SubscriberImpl subscriber : new ArrayList<SubscriberImpl>(subscriptionSubscribers)) {
+					SubscriptionSubscriberImpl result = new SubscriptionSubscriberImpl();
+					result.setSubscription(subscription);
+					result.setSubscriber(subscriber);
+					list.add(result);
+				}
+			}
+		}
+		return list;
 	}
 }

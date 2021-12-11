@@ -1,10 +1,13 @@
 package nabu.misc.broadcast;
 
+import java.util.List;
+
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 
 import be.nabu.eai.module.cluster.messaging.MessageListener;
+import be.nabu.eai.module.cluster.messaging.api.SubscriptionSubscriber;
 
 @WebService
 public class Services {
@@ -33,5 +36,23 @@ public class Services {
 		if (instance != null) {
 			instance.publish(data);
 		}
+	}
+	
+	@WebResult(name = "result")
+	public SubscriptionSubscriber resolve(@WebParam(name = "subscriptionId") String subscriptionId) {
+		MessageListener instance = MessageListener.getInstance();
+		if (instance != null) {
+			return instance.resolve(subscriptionId);
+		}
+		return null;
+	}
+
+	@WebResult(name = "results")
+	public List<SubscriptionSubscriber> list() {
+		MessageListener instance = MessageListener.getInstance();
+		if (instance != null) {
+			return instance.listAll();
+		}
+		return null;
 	}
 }
