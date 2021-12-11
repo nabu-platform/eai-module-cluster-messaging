@@ -36,7 +36,7 @@ This evaluation, while fast, still takes an overhead. By centralizing the evalua
 
 2) Data has to be marshalled before sending and -crucially- unmarshalled before rules can be evaluated. So we always take the overhead of serialization even if we are not actually interested in the data instance.
 
-3) If, in the end, we are only interested in a fraction of the data stream, we can severely reduce the chatter between servers by only sending data that at least someone is interested in.
+3) If, in the end, we are only interested in a fraction of the data stream, we can severely reduce the chatter between servers by only sending data that at least someone is interested in. Especially when no listeners are active, no data will be sent, this allows you to just send a lot of data, knowing you won't overload the system simply by sending it.
 
 The only downside to this approach is servers have to periodically emit their subscriptions, and especially when a server crashes it might take a while before his subscriptions are unsubscribed.
 But due to the low occurence of such an event and the massive potential performance gains, this approach is worth it.

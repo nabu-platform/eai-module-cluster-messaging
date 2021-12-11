@@ -77,7 +77,6 @@ public class SubscriberImpl {
 			
 			ServiceRuntime runtime = new ServiceRuntime(service, repository.newExecutionContext(SystemPrincipal.ROOT));
 			try {
-				runtime.registerInThread(false);
 				ComplexContent run = runtime.run(newInstance);
 				if (run != null) {
 					Object object = run.get("active");
@@ -88,9 +87,6 @@ public class SubscriberImpl {
 			}
 			catch (Exception e) {
 				logger.error("Exception thrown by message subscriber", e);
-			}
-			finally {
-				runtime.unregisterInThread();
 			}
 		}
 		return active;
