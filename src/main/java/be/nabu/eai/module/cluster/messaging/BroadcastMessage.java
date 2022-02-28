@@ -1,9 +1,12 @@
 package be.nabu.eai.module.cluster.messaging;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BroadcastMessage {
+public class BroadcastMessage implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	// stringified content of the actual message
 	private String content;
 	// the type of the message

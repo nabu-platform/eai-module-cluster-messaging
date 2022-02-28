@@ -252,7 +252,7 @@ public class MessageListener implements ServerListener {
 						for (final SubscriptionImpl subscription : subscriptions) {
 							List<SubscriberImpl> list = subscribers.get(subscription);
 							if (list != null && !list.isEmpty()) {
-								for (final SubscriberImpl subscriber : list) {
+								for (final SubscriberImpl subscriber : new ArrayList<SubscriberImpl>(list)) {
 									if (WARNING_LIMIT > 0 && pool.getQueuedSubmissionCount() > WARNING_LIMIT) {
 										logger.warn("There are not enough resources to process the available messages");
 									}
@@ -421,11 +421,11 @@ public class MessageListener implements ServerListener {
 			List<SubscriberImpl> list = allSubscribers.get(subscription);
 			// if we removed at least one subscriber, we assume we are done for this subscription
 			// if we don't, we assume you want to remove all subscribers for this subscription
-			if (!list.removeAll(subscribers)) {
+			if (list != null && !list.removeAll(subscribers)) {
 				list.clear();
 			}
 			// if no subscribers left, we are not interested anymore
-			if (list.isEmpty()) {
+			if (list == null || list.isEmpty()) {
 				allSubscribers.remove(subscription);
 				changedSubscriptions = true;
 			}
